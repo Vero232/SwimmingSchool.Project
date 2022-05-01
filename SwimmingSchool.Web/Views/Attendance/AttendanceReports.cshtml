@@ -1,0 +1,59 @@
+﻿@model List<IGrouping<DateTime, Tuple<AttendanceRecord, Member>>>
+@{
+    Layout ="_Layout";
+}
+@*  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery-ui.js"></script>
+  
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+  </script>*@
+   <form asp-action="AttendanceReports" asp-controller="Attendance">
+           <div class="form-horizontal">
+
+                <div class="form-group form-group-sm">
+                    <div class="col-md-8">
+                       @Html.TextBox("start", null, new { @class = "form-control datepicker" })
+                    </div>
+                </div>
+                <div class="form-group-sm">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-default" /> <span> </span>
+                    </div>
+
+                </div>
+            </div>
+       </form>
+
+
+@foreach(var item in Model){
+
+    <td>@item.Key</td><br />
+    foreach (var member in item)
+    {
+
+        <td>Firstname: @member.Item2.Firstname</td>  <br />
+       <form asp-action="RemoveAttendance" asp-controller="Attendance">
+            <div class="form-horizontal">
+
+                <div class="form-group form-group-sm">
+                    <div class="col-md-8">
+       
+                    @Html.Hidden("id", member.Item2.Id)
+                        @Html.Hidden("date", item.Key)
+  
+                    </div>
+                </div>
+                <div class="form-group-sm">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Remove Attendance" class="btn btn-default" /> <span> Remove Attendance</span>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    }
+} 
+  
