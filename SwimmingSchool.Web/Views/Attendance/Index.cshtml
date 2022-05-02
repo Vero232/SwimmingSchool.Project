@@ -8,75 +8,65 @@
      <label for="attendanceDate">Date:</label>
   <input type="date" id="attendanceDate" name="attendanceDate"/>
   <span class='dateError'>Please pick a date</span>
-  @foreach(var i in Model){
-   
-  }
-    <table>
+ 
+<table>
     <tbody>
      
 @foreach (var item in Model) {
   
-        <tr class="content member">
-           <td>
-                <input hidden value="@item.Id" id="key"/>
-           </td>
-    <td>
-          <input type="checkbox" id="status" name="status" value="Present">
-    <label for="status"> Present</label><br>
-    </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Firstname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lastname)
-            </td> 
-             <td>
+    <tr class="content member">
+        <td>
+            <input hidden value="@item.Id" id="key"/>
+        </td>
+        <td>
+
+       <input type="checkbox" id="status" name="status" value="Present">
+        <label for="status"> Present</label><br>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Firstname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lastname)
+        </td> 
+        <td>
          
-                <a asp-action="Details" asp-route-id="@item.Id">View Details</a> 
+            <a asp-action="Details" asp-route-id="@item.Id">View Details</a> 
        
-            </td>
+        </td>
            
-        </tr>
+     </tr>
      
 }
 
- </tbody>
+    </tbody>
  </table>
 
 <input type="button" onclick="sendSubmissionForm()" value="Save Data"/>
 
-<script
-  src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous"></script>
-
  <script>
+       $('.dateError').hide()
      function sendSubmissionForm() {
          if($('#attendanceDate').val() != ''){
               $('.dateError').hide()
              $(".member").each(function( index ) {
-                    var checkbox = $(this).find("input[name='status']");
+                var checkbox = $(this).find("input[name='status']");
 
-                    if (checkbox.is(':checked'))
-                    {
-          
-                     //   console.log(dataObject)
-                            $.ajax({
-                                 url: "/Attendance/RecordAttendance?Key=" +parseInt($(this).find('#key').val()) + "&AttendanceDate=" + $('#attendanceDate').val(),  
-                                type: 'POST',
-                                contentType: "application/json; charset=utf-8",  
-                                   dataType: "json"
-                             //   data: dataObject
+                if (checkbox.is(':checked'))
+                {
+                    $.ajax({
+                        url: "/Attendance/RecordAttendance?Key=" +parseInt($(this).find('#key').val()) + "&AttendanceDate=" + $('#attendanceDate').val(),  
+                        type: 'POST',
+                        contentType: "application/json; charset=utf-8",  
+                        dataType: "json"
 
-                            });
+                    });
                  }
             });
 
         }else{
             $('.dateError').show()
         }
-
-   
      }
 
       $('#search').keyup(function(){

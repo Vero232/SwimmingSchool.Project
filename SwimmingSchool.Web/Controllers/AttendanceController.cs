@@ -53,7 +53,7 @@ namespace SwimmingSchool.Web.Controllers
                     ((record, member) => new { record, member }))
                 .AsEnumerable()
                 .Select(x => Tuple.Create(x.record, x.member))
-                .GroupBy((x => x.Item1.AttendanceDate))
+                .GroupBy((x => x.Item1.AttendanceDate)).Take(3)
                 .ToList();
 
             if (start != null)
