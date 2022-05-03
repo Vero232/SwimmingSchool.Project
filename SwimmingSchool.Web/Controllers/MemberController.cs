@@ -38,9 +38,16 @@ namespace SwimmingSchool.Web.Controllers
         [Route("Members")]
         public IActionResult Members()
         {
-            var members = _db.Members.ToList();
+            if (HttpContext.Session.GetString("AdminUser") != null)
+            {
+                var members = _db.Members.ToList();
+                return View(members);
+            }
+            else {
 
-            return View(members);
+                return RedirectToAction("Login", "Admin");
+            }
+    
         }
 
         [Route("Member/Details/{id}")]
@@ -50,6 +57,7 @@ namespace SwimmingSchool.Web.Controllers
             var member = _db.Members.FirstOrDefault(x => x.Id == id);
 
             return View(member);
+         
         }
 
         public IActionResult Delete(int id)

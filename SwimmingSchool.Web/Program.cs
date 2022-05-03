@@ -14,13 +14,20 @@ builder.Services.AddDbContext<AppDbContext>(options => {
 
 
 builder.Services.AddRazorPages();
+builder.Services.AddDistributedMemoryCache();
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 var db = builder.Services.AddDbContext<AppDbContext>();
 var app = builder.Build();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseSession();
 
 
 if (configuration.GetValue<bool>("Enviroment:DisableDeveloperExceptions"))

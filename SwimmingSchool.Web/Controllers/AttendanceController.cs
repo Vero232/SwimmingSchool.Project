@@ -17,9 +17,15 @@ namespace SwimmingSchool.Web.Controllers
 
         public IActionResult Index()
         {
-            var members = _db.Members.ToList();
+            if (HttpContext.Session.GetString("AdminUser") != null)
+            {
+                var members = _db.Members.ToList();
 
-            return View(members);
+                return View(members);
+            }
+            else {
+                return RedirectToAction("Login", "Admin");
+            }
          
         }
 
@@ -47,8 +53,9 @@ namespace SwimmingSchool.Web.Controllers
 
         public IActionResult AttendanceReports(DateTime? start)
         {
-
-            var model = _db.AttendanceRecords
+            if (HttpContext.Session.GetString("AdminUser") != null)
+            {
+                var model = _db.AttendanceRecords
                 .Join(_db.Members, p => p.Key, n => n.Id,
                     ((record, member) => new { record, member }))
                 .AsEnumerable()
@@ -56,10 +63,14 @@ namespace SwimmingSchool.Web.Controllers
                 .GroupBy((x => x.Item1.AttendanceDate)).Take(3)
                 .ToList();
 
-            if (start != null)
-                model = model.Where(x => x.Key == start).ToList();
+                if (start != null)
+                    model = model.Where(x => x.Key == start).ToList();
 
-            return View(model);
+                return View(model);
+            }
+            else {
+                return RedirectToAction("Login", "Admin");
+            }
 
 
         }
@@ -76,10 +87,15 @@ namespace SwimmingSchool.Web.Controllers
         [Route("Member/Details/{id}")]
         public IActionResult Details(int id)
         {
+            if (HttpContext.Session.GetString("AdminUser") != null)
+            {
+                var member = _db.Members.FirstOrDefault(x => x.Id == id);
 
-            var member = _db.Members.FirstOrDefault(x => x.Id == id);
-
-            return View(member);
+                return View(member);
+            }
+            else {
+                return RedirectToAction("Login", "Admin");
+            }
         }
         
 
