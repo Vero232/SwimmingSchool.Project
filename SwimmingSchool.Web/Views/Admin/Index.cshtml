@@ -6,13 +6,21 @@
             </div>
             <div class="card-body">
                     <div class="form-group">
-                        <a class="btn btn-primary" href="/members">View Members</a>
+                        <a class="btn btn-primary" href="/members">View All Members</a>
                     </div><br/>
                      <div class="form-group ">
-                        <a class="btn btn-primary" href="/attendance/attendancereports">Create Attendance Report</a>
+                        <a class="btn btn-primary" href="/attendance/attendancereports">Attendance Reports</a>
                     </div><br/>
                      <div class="form-group">
-                        <a class="btn btn-primary" href="/attendance">Create Attendance Reports</a>
+                        <a class="btn btn-primary" href="/attendance">Create Attendance Report</a>
+                    </div>  <br/>
+                     <div class="form-group">
+                        <a class="btn btn-primary" href="/create-admin">Create Admin User</a>
+                    </div><br/>
+                     <div class="form-group">
+                        <form asp-action="Logout" asp-controller="Admin">
+                              <input type="submit" value="logout" class="btn btn-primary"/>
+                         </form>
                     </div>
             </div>
         </div>

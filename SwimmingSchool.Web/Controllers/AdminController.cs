@@ -2,7 +2,9 @@
 using SwimmingSchool.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-
+using System;
+using System.Security.Cryptography;
+using System.Text;
 namespace SwimmingSchool.Web.Controllers
 {
     public class AdminController : Controller
@@ -17,8 +19,17 @@ namespace SwimmingSchool.Web.Controllers
 
         public IActionResult Index()
         {
-      
-          //  var hashedPassword = new PasswordHasher<object?>().HashPassword(null, password);
+            var initialAdminUser = new AdminUser();
+
+            initialAdminUser.EmailAddress = "admin@gmail.com";
+            initialAdminUser.Password  = "admin01";
+
+            if (_db.AdminUsers.Where(x => x.EmailAddress == "admin@gmail.com").FirstOrDefault() == null)
+            {
+                _db.AdminUsers.Add(initialAdminUser);
+                _db.SaveChanges();
+            }
+
             if (HttpContext.Session.GetString("AdminUser") != null)
             {
                 return View();
@@ -30,15 +41,15 @@ namespace SwimmingSchool.Web.Controllers
         }
 
 
-        public IActionResult Login(string emailAddress, string password)
+        public IActionResult Login(AdminUser adminUser)
         {
             if (ModelState.IsValid)
             {
+            
 
-                var data = _db.AdminUsers.Where(s => s.EmailAddress.Equals(emailAddress) && s.Password.Equals(password)).ToList();
+                var data = _db.AdminUsers.Where(s => s.EmailAddress.Equals(adminUser.EmailAddress) && s.Password.Equals(adminUser.Password)).ToList();
                 if (data.Count() > 0)
                 {
-                    //add session
 
                     HttpContext.Session.SetString("AdminUser", data.FirstOrDefault().EmailAddress);
                  
@@ -54,12 +65,29 @@ namespace SwimmingSchool.Web.Controllers
         }
 
 
-        //Logout
+    
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear();//remove session
+            HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
 
+
+
+        [Route("create-admin")]
+        public IActionResult CreateAdmin(AdminUser admin)
+        {
+
+            if (!ModelState.IsValid)
+                return View();
+
+            if (_db.AdminUsers.Where(x => x.EmailAddress == admin.EmailAddress).FirstOrDefault() == null)
+            {
+                _db.AdminUsers.Add(admin);
+                _db.SaveChanges();
+            }
+
+            return RedirectToAction("Login");
+        }
     }
 }

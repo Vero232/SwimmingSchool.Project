@@ -20,33 +20,47 @@
             </div>
    </form>
 
-
+<table id="attendanceTable">
 @foreach(var item in Model){
 
-    <td>@item.Key</td><br />
-    foreach (var member in item)
-    {
+           <tr> <td>@item.Key</td><br /></tr>
+             <tr>
+                  
+                        <th>Name</th>
 
-        <td>Firstname: @member.Item2.Firstname</td>  <br />
-       <form asp-action="RemoveAttendance" asp-controller="Attendance">
-            <div class="form-horizontal">
+                    </tr>
+            foreach (var member in item)
+            {
+                 @Html.Hidden("id", member.Item2.Id)
+                  @Html.Hidden("date", item.Key)
 
-                <div class="form-group form-group-sm">
-                    <div class="col-md-8">
+                  
+                    <tr>
+                        <td> @member.Item2.Firstname</td>
+                        
+                      <form asp-action="RemoveAttendance" asp-controller="Attendance">
+                        <input type="submit" value="Remove" class="btn btn-default" />
+                     </form>
+  
+                    </tr>
+                           
        
-                    @Html.Hidden("id", member.Item2.Id)
-                        @Html.Hidden("date", item.Key)
-  
-                    </div>
-                </div>
-                <div class="form-group-sm">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Remove Attendance" class="btn btn-default" /> <span> Remove Attendance</span>
-                    </div>
-
-                </div>
-            </div>
-        </form>
-    }
+             }
+      
 } 
-  
+</table>
+<button class="exportToExcel">Export to XLS</button>
+ <script>
+        $(function() {
+        $(".exportToExcel").click(function(event) {
+ 
+        $("#attendanceTable").table2excel({
+            exclude: ".excludeThisClass",
+            name: $("#attendanceTable").data("tableName"),
+            filename: "StudentTable.xls",
+            preserveColors: false
+        });
+        });
+    });
+
+ </script>
