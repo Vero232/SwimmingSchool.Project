@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<SwimmingSchool.Web.Models.Member>
-
 @{
-    Layout = null;
+    Layout = "_AdminLayout";
 }
 
 <!DOCTYPE html>
@@ -12,9 +11,7 @@
     <title>Members</title>
 </head>
 <body>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+    <h4>Members</h4>
 <table class="table">
     <thead>
         <tr>
@@ -61,8 +58,8 @@
                 @Html.DisplayFor(modelItem => item.RegistrationDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary"><i class="fa fa-info-circle" aria-hidden="true"></i> Details</a> | 
+                <a asp-action="Detele" asp-route-id="@item.Id"  class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
             </td>
         </tr>
 }

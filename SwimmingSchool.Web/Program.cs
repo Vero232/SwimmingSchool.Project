@@ -15,10 +15,11 @@ builder.Services.AddDbContext<AppDbContext>(options => {
 
 builder.Services.AddRazorPages();
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.IdleTimeout = TimeSpan.FromSeconds(1800); //30 minute session
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
+
 namespace SwimmingSchool.Web.Controllers
 {
     public class AdminController : Controller
@@ -32,7 +34,7 @@ namespace SwimmingSchool.Web.Controllers
 
             if (HttpContext.Session.GetString("AdminUser") != null)
             {
-                return View();
+                return RedirectToAction("AttendanceReports", "Attendance");
             }
             else
             {
@@ -40,14 +42,21 @@ namespace SwimmingSchool.Web.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Login()
+        {
 
+            return View();
+        }
+
+        [HttpPost]
         public IActionResult Login(AdminUser adminUser)
         {
             if (ModelState.IsValid)
             {
             
 
-                var data = _db.AdminUsers.Where(s => s.EmailAddress.Equals(adminUser.EmailAddress) && s.Password.Equals(adminUser.Password)).ToList();
+                var data = _db.AdminUsers.Where(s => s.EmailAddress.Equals(adminUser.EmailAddress) && s.Password.Equals(adminUser.Password));
                 if (data.Count() > 0)
                 {
 
@@ -57,7 +66,7 @@ namespace SwimmingSchool.Web.Controllers
                 }
                 else
                 {
-                    ViewBag.error = "Login failed";
+                    
                     return RedirectToAction("Login");
                 }
             }
@@ -65,7 +74,6 @@ namespace SwimmingSchool.Web.Controllers
         }
 
 
-    
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
@@ -73,8 +81,14 @@ namespace SwimmingSchool.Web.Controllers
         }
 
 
+        [HttpGet, Route("create-admin")]
+        public IActionResult CreateAdmin()
+        {
 
-        [Route("create-admin")]
+            return View();
+        }
+
+        [HttpPost, Route("create-admin")]
         public IActionResult CreateAdmin(AdminUser admin)
         {
 

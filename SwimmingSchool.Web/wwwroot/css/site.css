@@ -13,6 +13,16 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+.fxd {
+position:fixed;
+bottom:0px;
+}
+
+.chck-bx {
+    width: 25px;
+    height: 25px;
+}
+
+.mx-wdth {
+    max-width:186px;
 }

@@ -1,7 +1,7 @@
 ﻿@model SwimmingSchool.Web.Models.Member
 
 @{
-    Layout = null;
+    Layout = "_Layout";
 }
 
 <!DOCTYPE html>
@@ -13,52 +13,54 @@
 </head>
 <body>
 
-<h4>Member</h4>
-<hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+   <div class="col-md-6  offset-md-3">
+        <h4>Your Profile</h4>
+<hr />
+         <form asp-action="Update" asp-controller="Member">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Id" value="@Model.Id"/>
             <div class="form-group">
                 <label asp-for="Firstname" class="control-label"></label>
-                <input asp-for="Firstname" class="form-control" />
+                <input asp-for="Firstname" class="form-control" value="@Model.Firstname"/>
                 <span asp-validation-for="Firstname" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Lastname" class="control-label"></label>
-                <input asp-for="Lastname" class="form-control" />
+                <input asp-for="Lastname" class="form-control" value="@Model.Lastname"/>
                 <span asp-validation-for="Lastname" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
+                <input asp-for="DateOfBirth" type="datetime" class="form-control" value="@Model.DateOfBirth"/>
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EmailAddress" class="control-label"></label>
-                <input asp-for="EmailAddress" class="form-control" />
+                <input asp-for="EmailAddress" class="form-control" value="@Model.EmailAddress"/>
                 <span asp-validation-for="EmailAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
+                <input asp-for="PhoneNumber" class="form-control" value="@Model.PhoneNumber"/>
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="RegistrationDate" class="control-label"></label>
-                <input asp-for="RegistrationDate" class="form-control" />
-                <span asp-validation-for="RegistrationDate" class="text-danger"></span>
+             <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" type="password" class="form-control" value="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-group">
+             <div class="form-group">
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <input asp-for="ConfirmPassword" type="password" class="form-control" value="Password"/>
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group pt-3">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

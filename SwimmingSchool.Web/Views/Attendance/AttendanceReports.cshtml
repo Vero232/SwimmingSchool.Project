@@ -1,34 +1,32 @@
 ﻿@model List<IGrouping<DateTime, Tuple<AttendanceRecord, Member>>>
 @{
-    Layout ="_Layout";
+    Layout = "_AdminLayout";
+    
 }
-
    <form asp-action="AttendanceReports" asp-controller="Attendance">
-           <div class="form-horizontal">
-
-                <div class="form-group form-group-sm">
-                    <div class="col-md-8">                 
-                       <input type="date" i id="start" name="start" class = "form-control datepicker">
-                    </div>
+        <div class="input-group">
+         <input type="date"  id="date" name="date" class = "form-control datepicker">
+          <div class="input-group-append">
+                <input type="submit" value="Search Date"class="btn btn-outline-secondary" /> <span> </span>
                 </div>
-                <div class="form-group-sm">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Search Date" class="btn btn-default" /> <span> </span>
-                    </div>
-
-                </div>
-            </div>
+          <form asp-action="AttendanceReports" asp-controller="Attendance"> 
+         <input type="submit" value="Show All"  class="btn btn-outline-secondary" /> <span> </span>
+    </form>
+          
+        </div>
    </form>
+   
+<table id="attendanceTable" class="table">
 
-<table id="attendanceTable">
 @foreach(var item in Model){
 
-           <tr> <td>@item.Key</td><br /></tr>
-             <tr>
-                  
-                        <th>Name</th>
-
-                    </tr>
+       <tr> <td class="pt-5"><h5>@item.Key.ToString("dd MMM yyyy")</h5></td><td></td><td></td></tr>
+        
+        <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                 <th>Remove</th>
+            </tr>
             foreach (var member in item)
             {
                  @Html.Hidden("id", member.Item2.Id)
@@ -37,11 +35,13 @@
                   
                     <tr>
                         <td> @member.Item2.Firstname</td>
-                        
-                      <form asp-action="RemoveAttendance" asp-controller="Attendance">
-                        <input type="submit" value="Remove" class="btn btn-default" />
-                     </form>
-  
+                         <td> @member.Item2.Lastname</td>
+                        <td class="excludeThisClass">
+                              <form asp-action="RemoveAttendance" asp-controller="Attendance">
+                                  <button  type="submit" value="Remove" class="btn btn-danger" > <i class="fa fa-minus-circle" aria-hidden="true"></i> Remove</button>
+                 
+                             </form>
+                         </td>
                     </tr>
                            
        
@@ -49,7 +49,7 @@
       
 } 
 </table>
-<button class="exportToExcel">Export to XLS</button>
+<button class="exportToExcel btn btn-outline-secondary">Export to XLS</button>
  <script>
         $(function() {
         $(".exportToExcel").click(function(event) {
