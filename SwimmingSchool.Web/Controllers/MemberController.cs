@@ -72,13 +72,13 @@ namespace SwimmingSchool.Web.Controllers
 
             if (!String.IsNullOrEmpty(EmailAddress) || !String.IsNullOrEmpty(Password))
             {
-                var data = _db.Members.Where(s => s.EmailAddress.Equals(EmailAddress) && s.Password.Equals(Password));
+                var member = _db.Members.Where(s => s.EmailAddress.Equals(EmailAddress) && s.Password.Equals(Password));
                 if (data.Count() > 0)
                 {
 
-                    HttpContext.Session.SetString("memberUser", data.FirstOrDefault().EmailAddress);
+                    HttpContext.Session.SetString("memberUser", member.FirstOrDefault().EmailAddress);
 
-                    return RedirectToAction("Edit", new { id = data.FirstOrDefault().Id});
+                    return RedirectToAction("Edit", new { id = member.FirstOrDefault().Id});
                 }
                 else
                 {

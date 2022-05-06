@@ -56,11 +56,11 @@ namespace SwimmingSchool.Web.Controllers
             {
             
 
-                var data = _db.AdminUsers.Where(s => s.EmailAddress.Equals(adminUser.EmailAddress) && s.Password.Equals(adminUser.Password));
-                if (data.Count() > 0)
+                var admin = _db.AdminUsers.Where(s => s.EmailAddress.Equals(adminUser.EmailAddress) && s.Password.Equals(adminUser.Password));
+                if (admin.Count() > 0)
                 {
 
-                    HttpContext.Session.SetString("AdminUser", data.FirstOrDefault().EmailAddress);
+                    HttpContext.Session.SetString("AdminUser", admin.FirstOrDefault().EmailAddress);
                  
                     return RedirectToAction("Index");
                 }
