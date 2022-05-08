@@ -30,11 +30,11 @@ namespace SwimmingSchool.Web.Controllers
         [HttpPost, Route("registration")]
         public IActionResult RegisterMember(Member Member)
         {
-           
+
             if (!ModelState.IsValid)
                 return View();
 
-            
+
             Member.RegistrationDate = DateTime.Today;
 
             _db.Members.Add(Member);
@@ -56,7 +56,7 @@ namespace SwimmingSchool.Web.Controllers
 
                 return RedirectToAction("Login", "Admin");
             }
-    
+
         }
 
         [HttpGet, Route("login")]
@@ -73,16 +73,16 @@ namespace SwimmingSchool.Web.Controllers
             if (!String.IsNullOrEmpty(EmailAddress) || !String.IsNullOrEmpty(Password))
             {
                 var member = _db.Members.Where(s => s.EmailAddress.Equals(EmailAddress) && s.Password.Equals(Password));
-                if (data.Count() > 0)
+                if (member.Count() > 0)
                 {
 
                     HttpContext.Session.SetString("memberUser", member.FirstOrDefault().EmailAddress);
 
-                    return RedirectToAction("Edit", new { id = member.FirstOrDefault().Id});
+                    return RedirectToAction("Edit", new { id = member.FirstOrDefault().Id });
                 }
                 else
                 {
-                    
+
                     return RedirectToAction("Login");
                 }
             }
@@ -110,16 +110,18 @@ namespace SwimmingSchool.Web.Controllers
         {
 
             var member = _db.Members.FirstOrDefault(x => x.Id == id);
-      
+
             return View(member);
 
         }
 
+        
         public IActionResult Delete(int id)
         {
 
             var member = _db.Members.FirstOrDefault(x => x.Id == id);
             _db.Members.Remove(member);
+            _db.SaveChanges();
 
             return RedirectToAction("Members");
         }

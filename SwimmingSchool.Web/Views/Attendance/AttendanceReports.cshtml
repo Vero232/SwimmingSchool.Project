@@ -29,17 +29,19 @@
             </tr>
             foreach (var member in item)
             {
-                 @Html.Hidden("id", member.Item2.Id)
-                  @Html.Hidden("date", item.Key)
+               
 
                   
                     <tr>
                         <td> @member.Item2.Firstname</td>
                          <td> @member.Item2.Lastname</td>
                         <td class="excludeThisClass">
+
                               <form asp-action="RemoveAttendance" asp-controller="Attendance">
+                                    @Html.Hidden("id", member.Item2.Id)
+                                    @Html.Hidden("date", item.Key)
+                                
                                   <button  type="submit" value="Remove" class="btn btn-danger" > <i class="fa fa-minus-circle" aria-hidden="true"></i> Remove</button>
-                 
                              </form>
                          </td>
                     </tr>
@@ -57,7 +59,7 @@
         $("#attendanceTable").table2excel({
             exclude: ".excludeThisClass",
             name: $("#attendanceTable").data("tableName"),
-            filename: "StudentTable.xls",
+            filename: "AttendanceReports.xls",
             preserveColors: false
         });
         });

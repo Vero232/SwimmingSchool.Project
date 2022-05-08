@@ -18,11 +18,12 @@
 <table class="table">
     <tbody>
       <tr>
-                <th>Present </th>
-                <th>Firstname</th>
-                 <th>Lastname</th>
-                  <th>Details</th>
-            </tr>
+            <th>Present </th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Phone number</th>
+             <th>Details</th>
+       </tr>
 @foreach (var item in Model) {
               
 
@@ -32,9 +33,7 @@
      </td>
 
         <td>
-
-       <input type="checkbox" id="status" name="status" value="Present" class="form-check-input chck-bx">
-
+            <input type="checkbox" id="status" name="status" value="Present" class="form-check-input chck-bx">
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Firstname)
@@ -42,6 +41,10 @@
         <td>
             @Html.DisplayFor(modelItem => item.Lastname)
         </td> 
+         <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+
         <td>
          
             <a asp-controller="member" asp-action="details" asp-route-id="@item.Id"  class="btn btn-primary"><i class="fa fa-minus-circle" aria-hidden="true"></i> Details</a> 

@@ -1,6 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-
+@{
+    var test = HttpContextAccessor.HttpContext.Session.GetString("AdminUser");
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,16 +80,16 @@
                       <div class="dropdown pb-4 fxd">
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
-                        <span class="d-none d-sm-inline mx-1">User</span>
+                        <span class="d-none d-sm-inline mx-1">@test</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                        <li><a class="dropdown-item" href="#">Create Admin</a></li>
+                        <li><a class="dropdown-item" href="create-admin">Create Admin</a></li>
 
-                        <li><a class="dropdown-item" href="#">View Members</a></li>
+                        @*<li><a class="dropdown-item" href="members">View Members</a></li>*@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        <li><a class="dropdown-item" href="Admin/Logout">Sign out</a></li>
                     </ul>
                 </div>
           </div>
