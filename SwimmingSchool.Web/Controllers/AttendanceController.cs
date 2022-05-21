@@ -47,7 +47,7 @@ namespace SwimmingSchool.Web.Controllers
 
   
         [Route("attendance-reports")]
-        public IActionResult AttendanceReports(DateTime? date)
+        public IActionResult AttendanceReports(DateTime? FromDate, DateTime? ToDate)
         {
             if (HttpContext.Session.GetString("AdminUser") != null)
             {
@@ -59,8 +59,15 @@ namespace SwimmingSchool.Web.Controllers
                 .GroupBy((x => x.Item1.AttendanceDate))
                 .ToList();
 
-                if (date != null)
-                    model = model.Where(x => x.Key == date).ToList();
+                if (FromDate == null) {
+                    FromDate = model.OrderByDescending(x => x.Key).Select(x => x.Key).FirstOrDefault();
+                }
+                if (ToDate == null)
+                {
+                    ToDate = model.OrderByDescending(x => x.Key).Select(x => x.Key).LastOrDefault();
+                }
+                if (FromDate != null && ToDate != null)
+                    model = model.Where(x => x.Key >= FromDate && x.Key <= ToDate).ToList();
 
                 return View(model);
             }

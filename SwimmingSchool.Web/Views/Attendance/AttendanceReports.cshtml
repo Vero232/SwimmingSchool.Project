@@ -3,18 +3,24 @@
     Layout = "_AdminLayout";
     
 }
+
    <form asp-action="AttendanceReports" asp-controller="Attendance">
-        <div class="input-group">
-         <input type="date"  id="date" name="date" class = "form-control datepicker">
-          <div class="input-group-append">
-                <input type="submit" value="Search Date"class="btn btn-outline-secondary" /> <span> </span>
-                </div>
-          <form asp-action="AttendanceReports" asp-controller="Attendance"> 
-         <input type="submit" value="Show All"  class="btn btn-outline-secondary" /> <span> </span>
+     
+        <div class="input-group flx-group">
+          <div class="flx-group"><p class="txt">From:</p>  <input type="date"  id="FromDate" name="FromDate" class = "form-control datepicker dates"></div>
+        <div class="flx-group"><p class="txt">To:</p>     <input type="date"  id="ToDate" name="ToDate" class = "form-control datepicker dates"></div>
+    
+          <div class="input-group-append flx-group">
+            <input type="submit" value="Search Date"class="btn btn-outline-secondary" /> <span> </span>
+                 <input type="button" value="Show All"  class="btn btn-outline-secondary ms-2" /> <span> </span>
+         </div>
+               
+    
+    
+         </div>
     </form>
-          
-        </div>
-   </form>
+
+
    
 <table id="attendanceTable" class="table">
 
