@@ -1,27 +1,39 @@
 ﻿@model IEnumerable<SwimmingSchool.Web.Models.Member>
 @{
-    Layout = "_Layout";
+    Layout = "_AdminLayout";
 }
+<div class="row">
+    <div class="col-md-5 d-flex align-items-center">
+         <input type="text" placeholder="Search.." name="search" id="search" class="me-3">
 
-   <input type="text" placeholder="Search.." name="search" id="search">
+     <label for="attendanceDate" class="me-3">Date:</label>
+      <input type="date" id="attendanceDate" name="attendanceDate" class="form-control datepicker me-3 mx-wdth"/>
+      <span class='dateError text-danger'>Please pick a date</span>
+   <span class='notfound'>No Results Found</span>
+    </div>
 
-     <label for="attendanceDate">Date:</label>
-  <input type="date" id="attendanceDate" name="attendanceDate"/>
-  <span class='dateError'>Please pick a date</span>
- 
-<table>
-    <tbody>
-     
-@foreach (var item in Model) {
+</div>
   
-    <tr class="content member">
-        <td>
-            <input hidden value="@item.Id" id="key"/>
-        </td>
-        <td>
 
-       <input type="checkbox" id="status" name="status" value="Present">
-        <label for="status"> Present</label><br>
+<table class="table">
+    <tbody>
+      <tr>
+            <th>Present </th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Phone number</th>
+             <th>Details</th>
+       </tr>
+@foreach (var item in Model) {
+              
+
+    <tr class="content member">
+        <td class="d-none">
+     <input hidden value="@item.Id" id="key"/>
+     </td>
+
+        <td>
+            <input type="checkbox" id="status" name="status" value="Present" class="form-check-input chck-bx">
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Firstname)
@@ -29,9 +41,13 @@
         <td>
             @Html.DisplayFor(modelItem => item.Lastname)
         </td> 
+         <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+
         <td>
          
-            <a asp-action="Details" asp-route-id="@item.Id">View Details</a> 
+            <a asp-controller="member" asp-action="details" asp-route-id="@item.Id"  class="btn btn-primary"><i class="fa fa-minus-circle" aria-hidden="true"></i> Details</a> 
        
         </td>
            
@@ -42,8 +58,8 @@
     </tbody>
  </table>
 
-<input type="button" onclick="sendSubmissionForm()" value="Save Data"/>
-
+<input type="button" onclick="sendSubmissionForm()" value="Save Data" class="btn btn-primary"/>
+ <a class="btn btn-primary" href="/attendance-reports">Attendance Reports</a>
  <script>
        $('.dateError').hide()
      function sendSubmissionForm() {
@@ -69,14 +85,35 @@
         }
      }
 
-      $('#search').keyup(function(){
- 
-          var text = $(this).val();
 
-          $('.content').hide();
- 
-          $('.content:contains("'+text+'")').show();
- 
-     });
+     $(document).ready(function(){
+           $('.notfound').hide();
+
+
+  $('#search').keyup(function(){
+
+    var search = $(this).val();
+   $('.notfound').hide();
+
+    $('.content').hide();
+
+    var len = $('.content:contains("'+search+'")').length;
+
+    if(len > 0){
+      
+        $('.content:not(.notfound) td:contains("'+search+'")').each(function(){
+            $(this).closest('tr').show();
+        });
+    }else{
+        $('.notfound').show();
+    }
+
+    });
+        $.expr[":"].contains = $.expr.createPseudo(function(arg) {
+            return function( elem ) {
+                return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+            };
+        });
+    });
 
  </script>

@@ -1,15 +1,13 @@
-﻿@model SwimmingSchool.Web.Models.AdminUser
-@{
-    Layout = "_AdminLayout";
-}
+﻿@model SwimmingSchool.Web.Models.Member
+
 <div class="row justify-content-md-center">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header">
                 Login
             </div>
             <div class="card-body">
-                  <form asp-action="Login" asp-controller="Admin">
+                  <form asp-action="Login" asp-controller="Member">
          
                     <div class="form-group">
                         <label asp-for="EmailAddress" class="control-label"></label>
@@ -21,11 +19,16 @@
                         <input asp-for="Password" class="form-control" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
-                    <div class="form-group pt-3">
+                    <div class="form-group pt-4">
                         <input type="submit" value="Login" class="btn btn-primary" />
                     </div>
+            
                 </form>
+                   <div class="col pt-4"">  <p class="d-inline">Not a member?</p> <a href="/registration">register here</a></div>
+  
             </div>
         </div>
     </div>
 </div>
+
+ 

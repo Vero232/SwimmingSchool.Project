@@ -26,7 +26,7 @@ namespace SwimmingSchool.Web.Controllers
             else {
                 return RedirectToAction("Login", "Admin");
             }
-         
+
         }
 
         public IActionResult RecordAttendance(AttendanceRecord AttendanceRecord)
@@ -35,23 +35,19 @@ namespace SwimmingSchool.Web.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            try
-            {
-            
-             var attendanceRecord =  _db.AttendanceRecords.Where(x => x.AttendanceDate == AttendanceRecord.AttendanceDate).FirstOrDefault(x => x.Key == AttendanceRecord.Key);
-             if(attendanceRecord == null)
-                _db.AttendanceRecords.Add(AttendanceRecord);
-                _db.SaveChanges();
-                return Json(new { success = true, responseText = "Success" });
-            }
-            catch (Exception ex) {
 
-                return Json(new { success = false, responseText = ex.Message});
-            }
-      
+
+            var attendanceRecord = _db.AttendanceRecords.Where(x => x.AttendanceDate == AttendanceRecord.AttendanceDate).FirstOrDefault(x => x.Key == AttendanceRecord.Key);
+            if (attendanceRecord == null)
+                _db.AttendanceRecords.Add(AttendanceRecord);
+            _db.SaveChanges();
+            return View();
+
         }
 
-        public IActionResult AttendanceReports(DateTime? start)
+  
+        [Route("attendance-reports")]
+        public IActionResult AttendanceReports(DateTime? date)
         {
             if (HttpContext.Session.GetString("AdminUser") != null)
             {
@@ -60,11 +56,11 @@ namespace SwimmingSchool.Web.Controllers
                     ((record, member) => new { record, member }))
                 .AsEnumerable()
                 .Select(x => Tuple.Create(x.record, x.member))
-                .GroupBy((x => x.Item1.AttendanceDate)).Take(3)
+                .GroupBy((x => x.Item1.AttendanceDate))
                 .ToList();
 
-                if (start != null)
-                    model = model.Where(x => x.Key == start).ToList();
+                if (date != null)
+                    model = model.Where(x => x.Key == date).ToList();
 
                 return View(model);
             }
@@ -84,20 +80,7 @@ namespace SwimmingSchool.Web.Controllers
             return RedirectToAction("AttendanceReports");
         }
 
-        [Route("Member/Details/{id}")]
-        public IActionResult Details(int id)
-        {
-            if (HttpContext.Session.GetString("AdminUser") != null)
-            {
-                var member = _db.Members.FirstOrDefault(x => x.Id == id);
-
-                return View(member);
-            }
-            else {
-                return RedirectToAction("Login", "Admin");
-            }
-        }
-        
+   
 
     }
 }

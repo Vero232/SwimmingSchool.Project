@@ -15,7 +15,7 @@ namespace SwimmingSchool.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return  RedirectToAction("Login", "Member");
         }
 
         public IActionResult Privacy()
