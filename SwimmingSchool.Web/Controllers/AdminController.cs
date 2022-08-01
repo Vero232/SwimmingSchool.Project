@@ -6,6 +6,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using System.Configuration;
 
 namespace SwimmingSchool.Web.Controllers
 {
@@ -18,13 +19,16 @@ namespace SwimmingSchool.Web.Controllers
         {
             _db = db;
         }
-
+ 
         public IActionResult Index()
         {
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.Development.json", optional: false);
+
+            IConfiguration config = builder.Build();
             var initialAdminUser = new AdminUser();
 
-            initialAdminUser.EmailAddress = "admin@gmail.com";
-            initialAdminUser.Password  = "admin01";
+            initialAdminUser.EmailAddress = config.GetValue<string>("DefaultAdminLogin:username");
+            initialAdminUser.Password = config.GetValue<string>("DefaultAdminLogin:password");
 
             if (_db.AdminUsers.Where(x => x.EmailAddress == "admin@gmail.com").FirstOrDefault() == null)
             {

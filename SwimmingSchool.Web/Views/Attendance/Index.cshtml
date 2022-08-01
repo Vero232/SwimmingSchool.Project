@@ -57,7 +57,13 @@
 
     </tbody>
  </table>
-
+<div class="alert alert-success alert-dismissible fade" role="alert" style="position: absolute;
+    top: 0;">
+  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 <input type="button" onclick="sendSubmissionForm()" value="Save Data" class="btn btn-primary"/>
  <a class="btn btn-primary" href="/attendance-reports">Attendance Reports</a>
  <script>
@@ -74,10 +80,11 @@
                         url: "/Attendance/RecordAttendance?Key=" +parseInt($(this).find('#key').val()) + "&AttendanceDate=" + $('#attendanceDate').val(),  
                         type: 'POST',
                         contentType: "application/json; charset=utf-8",  
-                        dataType: "json"
-
+                        dataType: "json",
+                  
                     });
                  }
+                 addAttendanceSuccess()
             });
 
         }else{
@@ -85,7 +92,13 @@
         }
      }
 
-
+     function addAttendanceSuccess(){
+     console.log("test")
+     $('.alert').addClass("show");
+     setTimeout(function(){
+ $('.alert').removeClass("show");
+}, 1800);
+     }
      $(document).ready(function(){
            $('.notfound').hide();
 

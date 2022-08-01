@@ -23,10 +23,13 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 justify-content-end">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="RegisterMember" asp-controller="Member" asp-action="Index">Register</a>
+                            <a class="nav-link text-dark"  asp-controller="Member" asp-action="RegisterMember">Register</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Login" asp-controller="Member" asp-action="Privacy">Login</a>
+                            <a class="nav-link text-dark" asp-controller="Member" asp-action="Login">Login</a>
+                        </li>
+                          <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin Login</a>
                         </li>
                     </ul>
                 </div>

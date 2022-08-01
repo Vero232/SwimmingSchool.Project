@@ -35,12 +35,12 @@ namespace SwimmingSchool.Web.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-
-
             var attendanceRecord = _db.AttendanceRecords.Where(x => x.AttendanceDate == AttendanceRecord.AttendanceDate).FirstOrDefault(x => x.Key == AttendanceRecord.Key);
             if (attendanceRecord == null)
+            {
                 _db.AttendanceRecords.Add(AttendanceRecord);
-            _db.SaveChanges();
+                _db.SaveChanges();
+            }
             return View();
 
         }
@@ -60,14 +60,14 @@ namespace SwimmingSchool.Web.Controllers
                 .ToList();
 
                 if (FromDate == null) {
-                    FromDate = model.OrderByDescending(x => x.Key).Select(x => x.Key).FirstOrDefault();
+                    FromDate = model.OrderByDescending(x => x.Key).Select(x => x.Key).LastOrDefault();
                 }
                 if (ToDate == null)
                 {
-                    ToDate = model.OrderByDescending(x => x.Key).Select(x => x.Key).LastOrDefault();
+                    ToDate = model.OrderByDescending(x => x.Key).Select(x => x.Key).FirstOrDefault();
                 }
                 if (FromDate != null && ToDate != null)
-                    model = model.Where(x => x.Key >= FromDate && x.Key <= ToDate).ToList();
+                    model = model.Where(x => x.Key >= FromDate && x.Key <= ToDate).OrderBy(x => x.Key).ToList();
 
                 return View(model);
             }

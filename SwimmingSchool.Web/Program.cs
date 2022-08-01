@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 IConfiguration configuration = builder.Configuration;
 builder.Services.AddMvc(option => option.EnableEndpointRouting = false);
 builder.Services.AddDbContext<AppDbContext>(options => {
-    var connectionString = configuration.GetConnectionString("AppDbContext");
+    var connectionString = configuration.GetConnectionString("WorkPCAppDbContext");
     options.UseSqlServer(connectionString);
 });
 
